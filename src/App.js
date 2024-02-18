@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Test from "./components/Test";
+import Children from "./components/Children";
+import './tailwind.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Test text="my first prop"/>
+            <Children>
+                <ul>
+                    <li>test1</li>
+                    <li>test2</li>
+                    <li>test3</li>
+                    <li>test4</li>
+                </ul>
+            </Children>
+        </div>
+    );
 }
 
 export default App;
