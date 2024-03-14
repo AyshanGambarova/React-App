@@ -1,13 +1,22 @@
 import {useState} from "react";
+import {Route, Routes} from 'react-router-dom';
 import './tailwind.css'
-import Form from "./components/Form";
+//Components
+//Views
+import Users from "./views/Users";
+import Posts from "./views/Posts";
+import Navbar from "./components/Navbar";
 
 function App() {
 
     const [show, setShow] = useState(false)
     return (
         <div className="App">
-            {/*<Test text="my first prop"/>*/}
+            <Navbar/>
+            <Routes>
+                <Route path="/users" element={<Users/>}/>
+                <Route path="/posts" element={<Posts/>}/>
+            </Routes>
             {/*<Children>*/}
             {/*    <ul>*/}
             {/*        <li>test1</li>*/}
@@ -20,7 +29,7 @@ function App() {
             {/*{show && <UseEffectHook/>}*/}
             {/*<UseRefHook/>*/}
             {/*<TodoApp/>*/}
-            <Form/>
+            {/*<Form/>*/}
         </div>
     );
 }

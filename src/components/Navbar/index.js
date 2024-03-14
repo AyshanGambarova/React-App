@@ -1,37 +1,38 @@
-import styles from "./style.module.css";
 import React, {useState} from 'react';
-import {AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
+//Assets
+import {AppstoreOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
+//Router
 import {Link} from 'react-router-dom';
 
 const {SubMenu} = Menu;
 
-function Index({text}) {
+function Index() {
     //#region States
 
     const [current, setCurrent] = useState('mail');
     const items = [
         {
-            label: 'Navigation One',
-            key: 'mail',
-            link: '/navigation-one',
-            icon: <MailOutlined/>,
+            label: 'Users',
+            key: 'users',
+            link: '/users',
+            icon: <UserOutlined/>,
         },
         {
-            label: 'Navigation Two',
-            key: 'two',
-            link: '/navigation-two',
+            label: 'Posts',
+            key: 'posts',
+            link: '/posts',
             icon: <AppstoreOutlined/>,
             disabled: false,
         },
         {
-            label: 'Navigation Three - Submenu',
-            key: 'SubMenu',
+            label: 'Blogs',
+            key: 'blogs',
             icon: <SettingOutlined/>,
             children: [
                 {
-                    type: 'group',
-                    label: 'Item 1',
+                    type: 'sport',
+                    label: 'Sport',
                     children: [
                         {
                             label: 'Option 1',
@@ -46,8 +47,8 @@ function Index({text}) {
                     ],
                 },
                 {
-                    type: 'group',
-                    label: 'Item 2',
+                    type: 'music',
+                    label: 'Music',
                     children: [
                         {
                             label: 'Option 3',
@@ -104,7 +105,6 @@ function Index({text}) {
                     );
                 })}
             </Menu>
-            <div className="p-4">{text}</div>
         </>
     );
 }
