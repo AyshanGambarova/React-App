@@ -2,36 +2,12 @@ import React, {useEffect} from "react";
 import {Button, Col, Form, Input, Modal, notification, Radio, Row, Select, Upload} from "antd";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {countries, genders} from "../../../../helpers/data";
 
 function Index({isModalVisible, handleOk, handleCancel}) {
     //#region States
 
     const initialFormValues = {name: "", surname: "", country: "", gender: "", description: "", file: null};
-    const options = [
-        {key: 'AF', value: 'Afghanistan'},
-        {key: 'AL', value: 'Albania'},
-        {key: 'DZ', value: 'Algeria'},
-        {key: 'AD', value: 'Andorra'},
-        {key: 'AO', value: 'Angola'},
-        {key: 'AR', value: 'Argentina'},
-        {key: 'AM', value: 'Armenia'},
-        {key: 'AU', value: 'Australia'},
-        {key: 'AT', value: 'Austria'},
-        {key: 'AZ', value: 'Azerbaijan'},
-        {key: 'BS', value: 'Bahamas'},
-        {key: 'BH', value: 'Bahrain'},
-        {key: 'BD', value: 'Bangladesh'},
-        {key: 'BB', value: 'Barbados'},
-        {key: 'BY', value: 'Belarus'}
-    ]
-
-    const radioGroupOptions = [{
-        value: 'male',
-        label: 'Male'
-    }, {
-        value: 'female',
-        label: 'Female'
-    }]
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
@@ -101,8 +77,7 @@ function Index({isModalVisible, handleOk, handleCancel}) {
 
     useEffect(() => {
         if (isModalVisible) {
-            formik.resetForm({values: {...initialFormValues, file: null}});
-            console.log(formik.values)
+            formik.resetForm({values: {...initialFormValues}});
         }
     }, [isModalVisible]);
 
@@ -173,9 +148,9 @@ function Index({isModalVisible, handleOk, handleCancel}) {
                                     onSelect={formik.handleChange}
                                     value={formik.values.country}
                                 >
-                                    {options.map((option) => (
-                                        <Select.Option key={option.key} value={option.value}>
-                                            {option.value}
+                                    {countries.map((country) => (
+                                        <Select.Option key={country.key} value={country.value}>
+                                            {country.value}
                                         </Select.Option>
                                     ))}
                                 </Select>
@@ -193,9 +168,9 @@ function Index({isModalVisible, handleOk, handleCancel}) {
                                     onBlur={formik.handleBlur}
                                     value={formik.values.gender}
                                 >
-                                    {radioGroupOptions.map((option) => (
-                                        <Radio key={option.value} value={option.value}>
-                                            {option.label}
+                                    {genders.map((gender) => (
+                                        <Radio key={gender.value} value={gender.value}>
+                                            {gender.label}
                                         </Radio>
                                     ))}
                                 </Radio.Group>

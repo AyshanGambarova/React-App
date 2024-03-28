@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Button} from "antd";
 //Components
-import Create from './components'
+import Create from './components/CreateUser'
 
 function Index() {
     const [isModalVisible, setIsModalVisible] = useState(false);
