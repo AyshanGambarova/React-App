@@ -1,16 +1,41 @@
 // APIs
 import $http from './interceptor'
 
-export const apiPosts = async () => {
+//#region Posts
+
+export const apiPosts = async (params) => {
     const response = await $http.request({
         method: 'GET',
-        url: `/posts`
+        url: `/posts`,
+        params
     })
-
-    console.log({response})
 
     return response.data
 }
 
+export const apiPostsDetails = async (id) => {
+    const response = await $http.request({
+        method: 'GET',
+        url: `/posts/${id}`,
+    })
+
+    return response.data
+}
+
+//#endregion
+
+//#region Users
+
+export const apiUsers = async (params) => {
+    const response = await $http.request({
+        method: 'GET',
+        url: `/users`,
+        params
+    })
+
+    return response.data
+}
+
+//#endregion
 
 

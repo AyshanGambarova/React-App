@@ -1,16 +1,17 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 //Assets
 import {AppstoreOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 //Router
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 
 const {SubMenu} = Menu;
 
 function Index() {
     //#region States
 
-    const [current, setCurrent] = useState('mail');
+    const [current, setCurrent] = useState('');
+    const location = useLocation();
     const items = [
         {
             label: 'Users',
@@ -90,6 +91,16 @@ function Index() {
 
     //#endregion
 
+    //#region Hooks
+
+    useEffect(() => {
+        const pathname = location.pathname;
+        let newStr = pathname.replace(/\//g, '');
+        setCurrent(newStr);
+    }, [location.pathname]);
+
+    //#endregion
+
     return (
         <>
             <Menu mode="horizontal" selectedKeys={[current]} onClick={handleMenuClick}>
@@ -97,7 +108,6 @@ function Index() {
                     if (item?.children) {
                         return renderSubMenu(item.key, item.icon, item.label, item.children);
                     }
-
                     return (
                         <Menu.Item key={item?.key} icon={item?.icon} disabled={item?.disabled}>
                             <Link to={item?.link}>{item?.label}</Link>

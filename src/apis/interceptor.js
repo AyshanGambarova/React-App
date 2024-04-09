@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const axiosConfig = {
     baseURL: 'https://jsonplaceholder.typicode.com',
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    },
 }
 
 const instance = axios.create(axiosConfig)
@@ -16,12 +19,9 @@ instance.interceptors.request.use(function (config) {
 
 // Add a response interceptor
 instance.interceptors.response.use(function (response) {
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    // Do something with response data
     return response;
 }, function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
+
     return Promise.reject(error);
 });
 
