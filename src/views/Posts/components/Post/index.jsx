@@ -1,6 +1,5 @@
-import {Button, Card} from "antd";
+import {Card} from "antd";
 import {useState} from "react";
-import {Link} from "react-router-dom";
 
 
 function Index({post}) {
@@ -16,7 +15,6 @@ function Index({post}) {
                 <p>{description}</p>
                 <div className='text-blue-500 cursor-pointer mt-3 flex justify-end items-center'
                      onClick={() => setShowMore((prevState) => !prevState)}>{showMore ? 'Less' : 'More'}</div>
-                <Link to={`/posts/${post.id}`}><Button type="link">Details -></Button></Link>
             </Card>
         </>
     );

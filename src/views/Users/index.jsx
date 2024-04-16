@@ -1,65 +1,72 @@
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 //Assets
 import {Button, Table} from "antd";
 //Components
 import Create from './components/CreateUser'
-import {apiUsers} from "../../apis";
+import {apiPosts} from "../../apis";
 // Helpers
 import {getTableHeight} from '../../helpers/index'
 
 function Index() {
     //#region States
+    const navigate = useNavigate();
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [users, setUsers] = useState([])
+    const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false)
+    const {Column} = Table;
+    const [pagination, setPagination] = useState({
+        hideOnSinglePage: false,
+        size: 'normal',
+        pageSizeOptions: ['10', '20', '25', '50', '100'],
+        showSizeChanger: true,
+        current: 1,
+        pageSize: 20,
+        total: 100,
+    });
+
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: 60
         },
         {
-            title: 'Username',
-            dataIndex: 'username',
-            key: 'username',
+            title: 'UserID',
+            dataIndex: 'userId',
+            key: 'userId',
+            width: 80
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
         },
         {
-            title: 'Phone',
-            dataIndex: 'phone',
-            key: 'phone',
+            title: 'Body',
+            dataIndex: 'body',
+            key: 'body',
         },
         {
-            title: 'Website',
-            dataIndex: 'website',
-            key: 'website',
-        },
-        {
-            title: 'Actions',
-            dataIndex: 'action',
-            key: 'action',
-        },
+            title: '',
+            dataIndex: 'actions',
+            key: 'actions',
+            width: 100,
+        }
     ];
-    const pagination = {
-        current: 1,
-        pageSize: 10,
-        total: users.length,
-    };
+
 
     //#endregion
 
     //#region Functions
 
-    const fetchData = async () => {
+    const fetchData = async (payload) => {
         try {
             setLoading(true)
-            const data = await apiUsers();
-            setUsers(data)
+            const data = await apiPosts(payload);
+            setPosts(data)
             setLoading(false)
         } catch (error) {
             //
@@ -78,6 +85,13 @@ function Index() {
         setIsModalVisible(false);
     };
 
+    const handleTableChange = (pagination) => {
+        console.log(pagination)
+        fetchData({_page: pagination.current, _limit: pagination.pageSize})
+        setPagination(pagination)
+        navigate(`/users?_page=${pagination.current}&_limit=${pagination.pageSize}`)
+    };
+
     //#endregion
 
     //#region Hooks
@@ -85,6 +99,11 @@ function Index() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        // Simulated API call to fetch data
+        fetchData({_page: pagination.current});
+    }, [pagination.current]);
 
     //#endregion
 
@@ -98,12 +117,26 @@ function Index() {
                 handleOk={handleOk}
                 handleCancel={handleCancel}
             />
-            <Table columns={columns} dataSource={users} loading={loading}
-                   scroll={{
-                       x: '100%',
-                       y: getTableHeight(),
-                   }}
-            />
+            <Table
+                columns={columns}
+                dataSource={posts}
+                loading={loading}
+                scroll={{
+                    x: '100%',
+                    y: getTableHeight(),
+                }}
+                pagination={posts?.length ? pagination : false}
+                onChange={handleTableChange}
+
+            >
+                <Column
+                    title="Action"
+                    key="action"
+                    render={(text, record) => (
+                        <Button>Edit</Button>
+                    )}
+                />
+            </Table>
 
         </div>
     )

@@ -7,7 +7,7 @@ export const apiPosts = async (params) => {
     const response = await $http.request({
         method: 'GET',
         url: `/posts`,
-        params
+        params,
     })
 
     return response.data
@@ -17,6 +17,16 @@ export const apiPostsDetails = async (id) => {
     const response = await $http.request({
         method: 'GET',
         url: `/posts/${id}`,
+    })
+
+    return response.data
+}
+
+export const apiCreatePost = async (data) => {
+    const response = await $http.request({
+        method: 'POST',
+        url: `/posts`,
+        data
     })
 
     return response.data

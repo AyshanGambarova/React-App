@@ -1,38 +1,34 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
 //APIs
+import {useQuery} from "react-query";
 import {apiPostsDetails} from "../../../../apis";
 
 function Index() {
     //#region State
 
     const {id} = useParams();
-    const [postDetails, setPostDetails] = useState({})
 
-    //#endregion
+    const {isLoading, isError, data, error} = useQuery(['postDetails', id], () => apiPostsDetails(id));
 
-    //#region Functions
-
-    const fetchData = async () => {
-        try {
-            const data = await apiPostsDetails(id);
-            setPostDetails(data)
-        } catch (error) {
-            //
-        }
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
 
-    //#endregion
+    if (isError) {
+        return <div>Error: {error.message}</div>;
+    }
 
-    //#region Hooks
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    //#endregion
     return (
-        <div>{postDetails.body}</div>
+        <>
+            {data && (
+                <>
+                    <h2>Post Details</h2>
+                    <div>{data.id}</div>
+                    <div>{data.body}</div>
+                </>
+            )}
+
+        </>
     )
 }
 
