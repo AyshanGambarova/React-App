@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 //Assets
-import {AppstoreOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
+import {AppstoreOutlined, SettingOutlined, UserOutlined, HomeOutlined} from '@ant-design/icons';
 //Router
 import {Link, useLocation} from 'react-router-dom';
 
@@ -13,6 +13,12 @@ function Index() {
     const [current, setCurrent] = useState('');
     const location = useLocation();
     const items = [
+        {
+            label: 'Home',
+            key: 'home',
+            link: '/',
+            icon: <HomeOutlined/>,
+        },
         {
             label: 'Users',
             key: 'users',
@@ -96,7 +102,11 @@ function Index() {
     useEffect(() => {
         const pathname = location.pathname;
         let newStr = pathname.replace(/\//g, '');
-        setCurrent(newStr);
+        if (newStr) {
+            setCurrent(newStr);
+        } else {
+            setCurrent('home');
+        }
     }, [location.pathname]);
 
     //#endregion

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Button, Col, Form, Input, Modal, notification, Radio, Row, Select, Upload} from "antd";
+import {Button, Col, Form, Input, message, Modal, notification, Radio, Row, Select, Upload} from "antd";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {countries, genders} from "../../../../helpers/data";
@@ -25,6 +25,13 @@ function Index({isModalVisible, handleOk, handleCancel}) {
             authorization: 'authorization-text',
         },
         maxCount: 1,
+        beforeUpload: (file) => {
+            const isPNG = file.type === 'image/png';
+            if (!isPNG) {
+                message.error(`${file.name} is not a png file`);
+            }
+            return isPNG || Upload.LIST_IGNORE;
+        },
         onChange(info) {
             if (info.file.status === 'done') {
                 formik.setFieldValue("file", info.file)
@@ -47,7 +54,6 @@ function Index({isModalVisible, handleOk, handleCancel}) {
             // formData.append("file", values.file);
 
             // const response = await axios.post("your-api-endpoint", formData);
-            // const response = await axios.post("your-api-endpoint", values);
             actions.setSubmitting(false);
             handleOk();
             notification.success({
@@ -78,6 +84,7 @@ function Index({isModalVisible, handleOk, handleCancel}) {
     useEffect(() => {
         if (isModalVisible) {
             formik.resetForm({values: {...initialFormValues}});
+            formik.setFieldValue("file", null)
         }
     }, [isModalVisible]);
 
