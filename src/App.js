@@ -11,13 +11,17 @@ const App = () => {
 
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route path='/' element={<MainLayout/>}>
-                <Route path='/' element={<Home/>}/>
-                <Route path='/users' element={<Users/>}/>
-                <Route path='/posts' element={<Posts/>}/>
-                <Route path='/posts/:id' element={<PostDetails/>}/>
+            <>
+                <Route path='/' element={<MainLayout/>}>
+                    <Route path='/' element={<Home/>}/>
+                    <Route path='/home' element={<Home/>}/>
+                    <Route path='/users' element={<Users/>}/>
+                    <Route path='/posts' element={<Posts/>}/>
+                    <Route path='/posts/:id' element={<PostDetails/>}/>
+                </Route>
+                {/* NotFound route is outside of MainLayout */}
                 <Route path='*' element={<NotFound/>}/>
-            </Route>
+            </>
         )
     );
 

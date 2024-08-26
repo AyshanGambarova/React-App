@@ -77,6 +77,7 @@ function Index({isModalVisible, handleOk, handleCancel}) {
                                 help={formik.errors.title && formik.touched.title ? formik.errors.title : null}
                             >
                                 <Input
+                                    allowClear={true}
                                     name="title"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -92,6 +93,7 @@ function Index({isModalVisible, handleOk, handleCancel}) {
                                 help={formik.errors.body && formik.touched.body ? formik.errors.body : null}
                             >
                                 <Input
+                                    allowClear={true}
                                     name="body"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}

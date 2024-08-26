@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 // APIs
 import {apiPosts} from "../../apis";
 // Assets
-import {Button, Col, Row} from "antd";
+import {Button, Col, FloatButton, Row} from "antd";
 // Components
 import Post from "./components/Post";
 import CreatePost from "./components/CreatePost";
@@ -16,7 +16,6 @@ function Index() {
     const [allDataLoaded, setAllDataLoaded] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [previousResponseEmpty, setPreviousResponseEmpty] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
 
     //#endregion
 
@@ -65,26 +64,6 @@ function Index() {
         setIsModalVisible(false);
     };
 
-    // Show button when page is scrolled up to certain amount
-    const toggleVisibility = () => {
-        if (window.pageYOffset > 300) {
-            setIsVisible(true);
-        } else {
-            setIsVisible(false);
-        }
-    };
-
-    // Scroll to top of page when button is clicked
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
-
-    // Add scroll event listener
-    window.addEventListener('scroll', toggleVisibility);
-
     //#endregion
 
     //#region Hooks
@@ -124,11 +103,9 @@ function Index() {
 
             </div>
             <div className="flex justify-center items-center">
-                {isVisible && allDataLoaded &&
+                {allDataLoaded &&
                     (
-                        <button onClick={scrollToTop}>
-                            Go to top
-                        </button>
+                        <FloatButton.BackTop/>
                     )}
             </div>
         </div>

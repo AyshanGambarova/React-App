@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function Index() {
     //#region States
 
@@ -12,13 +11,14 @@ function Index() {
 
     //#region Hooks
 
-
     //#endregion
 
     return (
-        <div className="p-4">
-            Home page
-        </div>
+        <>
+            <div className="p-4">
+                Home page
+            </div>
+        </>
 
     );
 }
