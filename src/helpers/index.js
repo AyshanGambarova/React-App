@@ -1,3 +1,9 @@
+//Helpers
+import modal from './modal'
+
+export const modalHelper = modal
+
+
 // Table height
 export const getTableHeight = () => {
     let height
