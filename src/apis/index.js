@@ -32,6 +32,13 @@ export const apiCreatePost = async (data) => {
     return response.data
 }
 
+export const apiDeletePost = async (id) => {
+    return await $http.request({
+        method: 'DELETE',
+        url: `/posts/${id}`
+    })
+}
+
 //#endregion
 
 //#region Users
@@ -45,6 +52,17 @@ export const apiUsers = async (params) => {
 
     return response.data
 }
+
+export const apiCreateUser = async (data) => {
+    const response = await $http.request({
+        method: 'POST',
+        url: `/users`,
+        data
+    })
+
+    return response.data
+}
+
 
 //#endregion
 

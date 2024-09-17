@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 // APIs
 import {apiPosts} from "../../apis";
 // Assets
-import {Button, Col, Row} from "antd";
+import {Button, Col, Row, Spin} from "antd";
+import {ArrowUpOutlined, DeleteOutlined} from '@ant-design/icons';
 // Components
 import Post from "./components/Post";
 import CreatePost from "./components/CreatePost";
@@ -119,16 +120,20 @@ function Index() {
                 ))}
             </Row>
             <div className="flex justify-center items-center">
-                {loading && !previousResponseEmpty && <div>Loading...</div>}
+                {loading && !previousResponseEmpty && <Spin/>}
                 {allDataLoaded && <div>You've loaded everything!</div>}
 
             </div>
             <div className="flex justify-center items-center">
                 {isVisible && allDataLoaded &&
                     (
-                        <button onClick={scrollToTop}>
-                            Go to top
-                        </button>
+                        <Button
+                            className="fixed bottom-5 right-5 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 transition-opacity duration-300 opacity-70 hover:opacity-100"
+                            shape="circle"
+                            onClick={scrollToTop}
+                            aria-label="Go to top"
+                            icon={<ArrowUpOutlined/>}
+                        />
                     )}
             </div>
         </div>

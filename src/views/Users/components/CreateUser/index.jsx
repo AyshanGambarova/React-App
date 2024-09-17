@@ -1,13 +1,14 @@
 import React, {useEffect} from "react";
-import {Button, Col, Form, Input, message, Modal, notification, Radio, Row, Select, Upload} from "antd";
+import {Button, Col, Form, Input, Modal, notification, Radio, Row, Select} from "antd";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {countries, genders} from "../../../../helpers/data";
+import {apiCreateUser} from "../../../../apis";
 
 function Index({isModalVisible, handleOk, handleCancel}) {
     //#region States
 
-    const initialFormValues = {name: "", surname: "", country: "", gender: "", description: "", file: null};
+    const initialFormValues = {name: "", surname: "", country: "", gender: "", description: ""};
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("Name is required"),
@@ -15,7 +16,6 @@ function Index({isModalVisible, handleOk, handleCancel}) {
         country: Yup.string().required("Country is required"),
         gender: Yup.string().required("Gender is required"),
         description: Yup.string().required("Description is required"),
-        file: Yup.mixed().required("File is required"),
     });
 
     const props = {
@@ -25,13 +25,6 @@ function Index({isModalVisible, handleOk, handleCancel}) {
             authorization: 'authorization-text',
         },
         maxCount: 1,
-        beforeUpload: (file) => {
-            const isPNG = file.type === 'image/png';
-            if (!isPNG) {
-                message.error(`${file.name} is not a png file`);
-            }
-            return isPNG || Upload.LIST_IGNORE;
-        },
         onChange(info) {
             if (info.file.status === 'done') {
                 formik.setFieldValue("file", info.file)
@@ -45,15 +38,13 @@ function Index({isModalVisible, handleOk, handleCancel}) {
 
     const handleSubmit = async (values, actions) => {
         try {
-            // const formData = new FormData();
-            // formData.append("name", values.name);
-            // formData.append("surname", values.surname);
-            // formData.append("country", values.country);
-            // formData.append("gender", values.gender);
-            // formData.append("description", values.description);
-            // formData.append("file", values.file);
-
-            // const response = await axios.post("your-api-endpoint", formData);
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("surname", values.surname);
+            formData.append("country", values.country);
+            formData.append("gender", values.gender);
+            formData.append("description", values.description);
+            await apiCreateUser(formData)
             actions.setSubmitting(false);
             handleOk();
             notification.success({
@@ -84,7 +75,6 @@ function Index({isModalVisible, handleOk, handleCancel}) {
     useEffect(() => {
         if (isModalVisible) {
             formik.resetForm({values: {...initialFormValues}});
-            formik.setFieldValue("file", null)
         }
     }, [isModalVisible]);
 
@@ -195,19 +185,6 @@ function Index({isModalVisible, handleOk, handleCancel}) {
                                     onBlur={formik.handleBlur}
                                     value={formik.values.description}
                                 />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12} className="px-3">
-                            <Form.Item
-                                label="File"
-                                validateStatus={formik.errors.file && formik.touched.file ? "error" : ""}
-                                help={formik.errors.file && formik.touched.file ? formik.errors.file : null}
-                            >
-                                <Upload
-                                    {...props}
-                                >
-                                    <Button>Upload File</Button>
-                                </Upload>
                             </Form.Item>
                         </Col>
                     </Row>

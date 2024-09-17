@@ -1,25 +1,15 @@
 import React from "react";
-
+import About from "./sections/About";
+import Services from "./sections/Services";
+import Landing from "./sections/Landing";
 
 function Index() {
-    //#region States
-
-    //#endregion
-
-    //#region Functions
-
-    //#endregion
-
-    //#region Hooks
-
-
-    //#endregion
-
     return (
         <div className="p-4">
-            Home page
+            <Landing/>
+            <Services/>
+            <About/>
         </div>
-
     );
 }
 

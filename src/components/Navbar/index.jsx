@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 //Assets
 import {Menu} from 'antd';
-import {AppstoreOutlined, SettingOutlined, UserOutlined, HomeOutlined} from '@ant-design/icons';
+import {AppstoreOutlined, UserOutlined, HomeOutlined} from '@ant-design/icons';
 //Router
 import {Link, useLocation} from 'react-router-dom';
 
@@ -31,45 +31,6 @@ function Index() {
             link: '/posts',
             icon: <AppstoreOutlined/>,
             disabled: false,
-        },
-        {
-            label: 'Blogs',
-            key: 'blogs',
-            icon: <SettingOutlined/>,
-            children: [
-                {
-                    type: 'sport',
-                    label: 'Sport',
-                    children: [
-                        {
-                            label: 'Option 1',
-                            key: 'setting-1',
-                            link: '/test-1',
-                        },
-                        {
-                            label: 'Option 2',
-                            key: 'setting-2',
-                            link: '/test-2',
-                        },
-                    ],
-                },
-                {
-                    type: 'music',
-                    label: 'Music',
-                    children: [
-                        {
-                            label: 'Option 3',
-                            key: 'setting-3',
-                            link: '/test-3',
-                        },
-                        {
-                            label: 'Option 4',
-                            key: 'setting-4',
-                            link: '/test-4',
-                        },
-                    ],
-                },
-            ],
         },
     ];
 

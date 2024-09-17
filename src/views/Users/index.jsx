@@ -1,12 +1,15 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+//APIs
+import {apiDeletePost, apiPosts} from "../../apis";
 //Assets
-import {Button, Table} from "antd";
+import {Button, Table, notification} from "antd";
+import {DeleteOutlined} from '@ant-design/icons';
 //Components
 import Create from './components/CreateUser'
-import {apiPosts} from "../../apis";
 // Helpers
 import {getTableHeight} from '../../helpers/index'
+import modalHelper from '../../helpers/modal';
 
 function Index() {
     //#region States
@@ -15,7 +18,6 @@ function Index() {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false)
-    const {Column} = Table;
     const [pagination, setPagination] = useState({
         hideOnSinglePage: false,
         size: 'normal',
@@ -50,10 +52,12 @@ function Index() {
             key: 'body',
         },
         {
-            title: '',
-            dataIndex: 'actions',
+            title: 'Action',
             key: 'actions',
             width: 100,
+            render: (text, record) => (
+                <Button shape="circle" onClick={() => handleDeletingUser(record.id)} icon={<DeleteOutlined/>}></Button>
+            )
         }
     ];
 
@@ -92,6 +96,21 @@ function Index() {
         navigate(`/users?_page=${pagination.current}&_limit=${pagination.pageSize}`)
     };
 
+    const handleDeletingUser = (id) => {
+        modalHelper.warning({
+            title: "Are you sure to delete user?",
+            onOk: () => handleDeleteUser(id)
+        })
+    };
+    const handleDeleteUser = async (id) => {
+        await apiDeletePost(id)
+        await fetchData()
+        notification.success({
+            message: "User deleted successfully.",
+            closeIcon: ''
+        })
+    };
+
     //#endregion
 
     //#region Hooks
@@ -101,7 +120,6 @@ function Index() {
     }, []);
 
     useEffect(() => {
-        // Simulated API call to fetch data
         fetchData({_page: pagination.current});
     }, [pagination.current]);
 
@@ -119,7 +137,7 @@ function Index() {
             />
             <Table
                 columns={columns}
-                dataSource={posts}
+                dataSource={posts.map(post => ({...post, key: post.id}))}
                 loading={loading}
                 scroll={{
                     x: '100%',
@@ -127,16 +145,9 @@ function Index() {
                 }}
                 pagination={posts?.length ? pagination : false}
                 onChange={handleTableChange}
-
             >
-                <Column
-                    title="Action"
-                    key="action"
-                    render={(text, record) => (
-                        <Button>Edit</Button>
-                    )}
-                />
             </Table>
+
 
         </div>
     )
